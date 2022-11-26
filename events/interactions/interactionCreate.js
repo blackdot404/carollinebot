@@ -1,4 +1,5 @@
 const { CommandInteraction } = require("discord.js");
+const Schema = require("../../Models/Welcome");
 
 module.exports = {
     name: "interactionCreate",
@@ -11,14 +12,19 @@ module.exports = {
 
             command.execute(interaction, client);
         } else if (interaction.isButton()) {
-            const role =
-                interaction.guild.roles.cache.get("368848882140053505");
-            return interaction.member.roles.add(role).then((member) => {
-                interaction.reply({
-                    content: `Acesso ao servidor liberado, bem-vindo(a)!! 🥰`,
-                    ephemeral: true,
-                });
-            });
+            Schema.findOne(
+                { Guild: interaction.guild.id },
+                async (err, data) => {
+                    if (!data) return;
+                    const role = interaction.guild.roles.cache.get(data.Role);
+                    return interaction.member.roles.add(role).then((member) => {
+                        interaction.reply({
+                            content: `Acesso ao servidor liberado, bem-vindo(a)!! 🥰`,
+                            ephemeral: true,
+                        });
+                    });
+                }
+            );
         } else {
             return;
         }
