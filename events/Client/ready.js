@@ -15,7 +15,7 @@ module.exports = {
             }
         );
         if (mongoose.connect) {
-            console.log("Connection to NoSQL database was successful.");
+            console.log("Connection to MongoDB database was successful.");
         }
 
         console.log(`${client.user.username} is now online.`);

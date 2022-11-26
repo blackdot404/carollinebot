@@ -14,7 +14,7 @@ module.exports = {
         .setDescription("Seta seu canal de verificação de membros.")
         .addChannelOption((option) =>
             option
-                .setName("channel")
+                .setName("canal")
                 .setDescription("Envia um texto para o canal.")
                 .setRequired(true)
         )
