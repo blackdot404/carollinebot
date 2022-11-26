@@ -20,7 +20,7 @@ module.exports = {
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
-        const channel = interaction.options.getChannel("channel");
+        const channel = interaction.options.getChannel("canal");
         const verifyEmbed = new EmbedBuilder()
             .setTitle(":name_badge: Regras do Servidor :name_badge:")
             .setDescription(
