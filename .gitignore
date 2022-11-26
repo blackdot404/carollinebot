@@ -105,3 +105,6 @@ dist
 
 # vscode config
 .vscode
+
+# discloud bot config 
+discloud.config
