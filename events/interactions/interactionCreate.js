@@ -17,6 +17,20 @@ module.exports = {
                 async (err, data) => {
                     if (!data) return;
                     const role = interaction.guild.roles.cache.get(data.Role);
+
+                    //caso ele já tenha o cargo para utilizar o servidor
+                    if (
+                        interaction.member.roles.cache.some(
+                            (role) => role.id === data.Role
+                        )
+                    ) {
+                        return interaction.reply({
+                            content: `Você já possui o cargo para utilizar o servidor!`,
+                            ephemeral: true,
+                        });
+                    }
+
+                    //caso não tenha adicionar o cargo
                     return interaction.member.roles.add(role).then((member) => {
                         interaction.reply({
                             content: `Acesso ao servidor liberado, bem-vindo(a)!! 🥰`,

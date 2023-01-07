@@ -8,6 +8,7 @@ module.exports = {
             if (!data) return;
             let channel = data.Channel;
             let roleChannel = data.RoleChannel;
+            let msgWelcome = data.Msg;
 
             const { user, guild, client } = member;
 
@@ -19,6 +20,7 @@ module.exports = {
                 .setTitle(":mega: Bem vindo(a) :mega:")
                 .setDescription(
                     `**${member}**, bem-vindo(a) ao servidor **${guild.name}**!
+                \n**${msgWelcome}**
                 \nAtualmente estamos com **${guild.memberCount} membros**.
                 \nNão esqueça de ler as <#${roleChannel}>
                 \n`
