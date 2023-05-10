@@ -1,19 +1,15 @@
 require("dotenv").config();
 const { Client } = require("discord.js");
 const mongoose = require("mongoose");
-const { USER_DB, PASS_DB } = process.env;
+const { DB_CONNECTION } = process.env;
 
 module.exports = {
     name: "ready",
     once: true,
     async execute(client) {
-        await mongoose.connect(
-            `mongodb+srv://${USER_DB}:${PASS_DB}@cronus.dfu2wp6.mongodb.net/?retryWrites=true&w=majority` ||
-                "",
-            {
-                keepAlive: true,
-            }
-        );
+        await mongoose.connect(`${DB_CONNECTION}` || "", {
+            keepAlive: true,
+        });
         if (mongoose.connect) {
             console.log("Connection to MongoDB database was successful.");
         }
