@@ -1,14 +1,14 @@
-const { CommandInteraction } = require("discord.js");
-const Schema = require("../../Models/Welcome");
+const { CommandInteraction } = require('discord.js');
+const Schema = require('../../Models/Welcome');
 
 module.exports = {
-    name: "interactionCreate",
+    name: 'interactionCreate',
 
     execute(interaction, client) {
         if (interaction.isChatInputCommand()) {
             const command = client.commands.get(interaction.commandName);
 
-            if (!command) interaction.reply({ content: "outdated command" });
+            if (!command) interaction.reply({ content: 'outdated command' });
 
             command.execute(interaction, client);
         } else if (interaction.isButton()) {
@@ -25,7 +25,8 @@ module.exports = {
                         )
                     ) {
                         return interaction.reply({
-                            content: `Você já possui o cargo para utilizar o servidor!`,
+                            content:
+                                'Você já possui o cargo para utilizar o servidor!',
                             ephemeral: true,
                         });
                     }
@@ -33,7 +34,8 @@ module.exports = {
                     //caso não tenha adicionar o cargo
                     return interaction.member.roles.add(role).then((member) => {
                         interaction.reply({
-                            content: `Acesso ao servidor liberado, bem-vindo(a)!! 🥰`,
+                            content:
+                                'Acesso ao servidor liberado, bem-vindo(a)!! 🥰',
                             ephemeral: true,
                         });
                     });

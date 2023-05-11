@@ -6,13 +6,13 @@ const {
     SlashCommandBuilder,
     CommandInteraction,
     PermissionFlagsBits,
-} = require("discord.js");
-const Schema = require("../../Models/Welcome");
+} = require('discord.js');
+const Schema = require('../../Models/Welcome');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("createverify")
-        .setDescription("Cria um botão de verificação para novos membros.")
+        .setName('createverify')
+        .setDescription('Cria um botão de verificação para novos membros.')
         // .addChannelOption((option) =>
         //     option
         //         .setName("canal")
@@ -27,9 +27,9 @@ module.exports = {
                 data.RoleChannel
             );
             const verifyEmbed = new EmbedBuilder()
-                .setTitle(":name_badge: Regras do Servidor :name_badge:")
+                .setTitle(':name_badge: Regras do Servidor :name_badge:')
                 .setDescription(
-                    "Clique no botão se você concorda com as regras apresentadas acima."
+                    'Clique no botão se você concorda com as regras apresentadas acima.'
                 )
                 .setColor(16312092);
             let sendChannel = channel.send({
@@ -37,8 +37,8 @@ module.exports = {
                 components: [
                     new ActionRowBuilder().setComponents(
                         new ButtonBuilder()
-                            .setCustomId("verify")
-                            .setLabel("✔️Concordo")
+                            .setCustomId('verify')
+                            .setLabel('✔️Concordo')
                             .setStyle(ButtonStyle.Success)
                     ),
                 ],
@@ -46,12 +46,12 @@ module.exports = {
             if (!sendChannel) {
                 return interaction.reply({
                     content:
-                        "Ops... Não foi possivel atender sua solicitação! Tente depois😓.",
+                        'Ops... Não foi possivel atender sua solicitação! Tente depois😓.',
                     ephemeral: true,
                 });
             } else {
                 return interaction.reply({
-                    content: "Canal de verificação setado com sucesso!🥰.",
+                    content: 'Canal de verificação setado com sucesso!🥰.',
                     ephemeral: true,
                 });
             }

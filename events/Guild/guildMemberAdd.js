@@ -1,8 +1,8 @@
-const { EmbedBuilder, GuildMember } = require("discord.js");
-const Schema = require("../../Models/Welcome");
+const { EmbedBuilder } = require('discord.js');
+const Schema = require('../../Models/Welcome');
 
 module.exports = {
-    name: "guildMemberAdd",
+    name: 'guildMemberAdd',
     async execute(member) {
         Schema.findOne({ Guild: member.guild.id }, async (err, data) => {
             if (!data) return;
@@ -17,7 +17,7 @@ module.exports = {
             );
 
             const welcomeEmbed = new EmbedBuilder()
-                .setTitle(":mega: Bem vindo(a) :mega:")
+                .setTitle(':mega: Bem vindo(a) :mega:')
                 .setDescription(
                     `**${member}**, bem-vindo(a) ao servidor **${guild.name}**!
                 \n**${msgWelcome}**

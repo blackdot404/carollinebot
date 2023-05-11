@@ -1,4 +1,4 @@
-const { model, Schema } = require("mongoose");
+const { model, Schema } = require('mongoose');
 
 let welcomeSchema = new Schema({
     Guild: String,
@@ -8,4 +8,4 @@ let welcomeSchema = new Schema({
     Role: String,
 });
 
-module.exports = model("Welcome", welcomeSchema);
+module.exports = model('Welcome', welcomeSchema);
