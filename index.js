@@ -1,21 +1,21 @@
-require("dotenv").config();
+require('dotenv').config();
 const { TOKEN_BOT } = process.env;
 const {
     Client,
     GatewayIntentBits,
     Partials,
     Collection,
-} = require("discord.js");
+} = require('discord.js');
 
-const { loadEvents } = require("./handlers/eventHandler");
-const { loadCommands } = require("./handlers/commandHandler");
+const { loadEvents } = require('./handlers/eventHandler');
+const { loadCommands } = require('./handlers/commandHandler');
 
 const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits;
 const { User, Message, GuildMember, ThreadMember, Channel } = Partials;
 
 const client = new Client({
     intents: [Guilds, GuildMembers, GuildMessages],
-    partials: [User, Message, GuildMember, ThreadMember],
+    partials: [User, Message, GuildMember, ThreadMember, Channel],
 });
 
 client.commands = new Collection();
