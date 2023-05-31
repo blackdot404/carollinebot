@@ -1,22 +1,22 @@
 const {
     SlashCommandBuilder,
-    CommandInteraction,
+    // CommandInteraction,
     PermissionFlagsBits,
     EmbedBuilder,
-} = require("discord.js");
+} = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("clear")
+        .setName('clear')
         .setDescription(
-            "Apaga mensagens de acordo com a quantidade de linhas informada."
+            'Apaga mensagens de acordo com a quantidade de linhas informada.'
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
         .addIntegerOption((option) =>
             option
-                .setName("quantidade")
+                .setName('quantidade')
                 .setDescription(
-                    "Quantidade de mensagens que deve ser apagadas."
+                    'Quantidade de mensagens que deve ser apagadas.'
                 )
                 .setMaxValue(99)
                 .setMinValue(1)
@@ -24,16 +24,16 @@ module.exports = {
         )
         .addUserOption((option) =>
             option
-                .setName("usuario")
-                .setDescription("Usuario foco do delete.")
+                .setName('usuario')
+                .setDescription('Usuario foco do delete.')
                 .setRequired(false)
         ),
 
     async execute(interaction) {
         const { channel, options } = interaction;
 
-        const amount = options.getInteger("quantidade");
-        const target = options.getUser("usuario");
+        const amount = options.getInteger('quantidade');
+        const target = options.getUser('usuario');
 
         const messages = await channel.messages.fetch({
             limit: amount + 1,
@@ -60,10 +60,10 @@ module.exports = {
                     );
                     interaction.reply({ embeds: [res] });
                 })
-                .catch((err) => {
+                .catch(() => {
                     return interaction.reply({
                         content:
-                            "Ops... Mensagens com mais de 10 dias de idade o discord não permite que eu apague 😓.",
+                            'Ops... Mensagens com mais de 10 dias de idade o discord não permite que eu apague 😓.',
                         ephemeral: true,
                     });
                 });
@@ -76,10 +76,10 @@ module.exports = {
                     );
                     interaction.reply({ embeds: [res] });
                 })
-                .catch((err) => {
+                .catch(() => {
                     return interaction.reply({
                         content:
-                            "Ops... Mensagens com mais de 10 dias de idade o discord não permite que eu apague 😓.",
+                            'Ops... Mensagens com mais de 10 dias de idade o discord não permite que eu apague 😓.',
                         ephemeral: true,
                     });
                 });

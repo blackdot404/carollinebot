@@ -1,35 +1,35 @@
 const {
-    Client,
+    // Client,
     SlashCommandBuilder,
     PermissionFlagsBits,
     EmbedBuilder,
-} = require("discord.js");
-const ms = require("ms");
+} = require('discord.js');
+const ms = require('ms');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("mute")
-        .setDescription("Silencia um membro do servidor.")
+        .setName('mute')
+        .setDescription('Silencia um membro do servidor.')
         .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
         .addUserOption((option) =>
             option
-                .setName("usuario")
-                .setDescription("Selecione o usuario que será silenciado.")
+                .setName('usuario')
+                .setDescription('Selecione o usuario que será silenciado.')
                 .setRequired(true)
         )
         .addStringOption((option) =>
             option
-                .setName("tempo")
+                .setName('tempo')
                 .setDescription(
-                    "Tempo que o usuario será silenciado. (h = horas, m = minutos, s = segundos)"
+                    'Tempo que o usuario será silenciado. (h = horas, m = minutos, s = segundos)'
                 )
                 .setRequired(true)
         )
         .addStringOption((option) =>
             option
-                .setName("motivo")
+                .setName('motivo')
                 .setDescription(
-                    "Por qual motivo que o usuario será silenciado?"
+                    'Por qual motivo que o usuario será silenciado?'
                 )
                 .setRequired(false)
         ),
@@ -37,25 +37,25 @@ module.exports = {
     async execute(interaction) {
         const { guild, options } = interaction;
 
-        const user = options.getUser("usuario");
+        const user = options.getUser('usuario');
         const member = guild.members.cache.get(user.id);
-        const time = options.getString("tempo");
+        const time = options.getString('tempo');
         const convertedTime = ms(time);
         const reason =
-            options.getString("motivo") || "Sem motivo em especifico.";
+            options.getString('motivo') || 'Sem motivo em especifico.';
 
         const errEmbed = new EmbedBuilder()
             .setDescription(
-                "Ops... Não foi possivel atender sua solicitação! Tente depois😓."
+                'Ops... Não foi possivel atender sua solicitação! Tente depois😓.'
             )
             .setColor(16312092);
 
         const sucessEmbed = new EmbedBuilder()
-            .setTitle("**:white_check_mark: Silenciado!**")
+            .setTitle('**:white_check_mark: Silenciado!**')
             .setDescription(`Usuario ${user} silenciado com sucesso.`)
             .addFields(
-                { name: "Motivo", value: `${reason}`, inline: true },
-                { name: "Tempo", value: `${time}`, inline: true }
+                { name: 'Motivo', value: `${reason}`, inline: true },
+                { name: 'Tempo', value: `${time}`, inline: true }
             )
             .setColor(16312092)
             .setTimestamp();

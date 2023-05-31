@@ -4,18 +4,18 @@ const {
     SlashCommandBuilder,
     ActionRowBuilder,
     SelectMenuBuilder,
-} = require("discord.js");
+} = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("help")
-        .setDescription("Lista todos os comandos disponivel no bot."),
+        .setName('help')
+        .setDescription('Lista todos os comandos disponivel no bot.'),
 
     async execute(interaction) {
         const emojis = {
-            info: "📋",
-            mod: "🔨",
-            gerenal: "⚙️",
+            info: '📋',
+            mod: '🔨',
+            gerenal: '⚙️',
         };
 
         const directories = [
@@ -33,7 +33,7 @@ module.exports = {
                         name: cmd.data.name,
                         description:
                             cmd.data.description ||
-                            "Esse comando não possui descrição.",
+                            'Esse comando não possui descrição.',
                     };
                 });
 
@@ -44,14 +44,14 @@ module.exports = {
         });
 
         const embed = new EmbedBuilder()
-            .setDescription("Por favor selecione a categoria no menu abaixo.")
+            .setDescription('Por favor selecione a categoria no menu abaixo.')
             .setColor(16312092);
 
         const components = (state) => [
             new ActionRowBuilder().addComponents(
                 new SelectMenuBuilder()
-                    .setCustomId("help-menu")
-                    .setPlaceholder("Por favor selecione a categoria.")
+                    .setCustomId('help-menu')
+                    .setPlaceholder('Por favor selecione a categoria.')
                     .setDisabled(state)
                     .setOptions(
                         categories.map((cmd) => {
@@ -81,7 +81,7 @@ module.exports = {
             componentType: ComponentType.SelectMenu,
         });
 
-        collector.on("collect", (interaction) => {
+        collector.on('collect', (interaction) => {
             const [directory] = interaction.values;
             const category = categories.find(
                 (x) => x.directory.toLowerCase() === directory
@@ -106,7 +106,7 @@ module.exports = {
             interaction.update({ embeds: [categoryEmbed] });
         });
 
-        collector.on("end", () => {
+        collector.on('end', () => {
             initialMessage.edit({ components: components(true) });
         });
     },

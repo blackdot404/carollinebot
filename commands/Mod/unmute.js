@@ -1,35 +1,35 @@
 const {
-    Client,
+    // Client,
     SlashCommandBuilder,
     PermissionFlagsBits,
     EmbedBuilder,
-} = require("discord.js");
+} = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("unmute")
-        .setDescription("Comando para tirar o 'Desmutar' um usuario. ")
+        .setName('unmute')
+        .setDescription('Comando para tirar o `Desmutar` um usuario. ')
         .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
         .addUserOption((option) =>
             option
-                .setName("usuario")
-                .setDescription("Seleciona o usuario que será 'Desmutado'")
+                .setName('usuario')
+                .setDescription('Seleciona o usuario que será `Desmutado`')
                 .setRequired(true)
         ),
     async execute(interaction) {
         const { guild, options } = interaction;
 
-        const user = options.getUser("usuario");
+        const user = options.getUser('usuario');
         const member = guild.members.cache.get(user.id);
 
         const errEmbed = new EmbedBuilder()
             .setDescription(
-                "Ops... Não foi possivel atender sua solicitação! Tente depois😓."
+                'Ops... Não foi possivel atender sua solicitação! Tente depois😓.'
             )
             .setColor(16312092);
 
         const sucessEmbed = new EmbedBuilder()
-            .setTitle("**:white_check_mark: Desmutado!**")
+            .setTitle('**:white_check_mark: Desmutado!**')
             .setDescription(`Usuario ${user} foi desmutado com sucesso.`)
             .setColor(16312092)
             .setTimestamp();

@@ -4,7 +4,7 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
     SlashCommandBuilder,
-    CommandInteraction,
+    // CommandInteraction,
     PermissionFlagsBits,
 } = require('discord.js');
 const Schema = require('../../Models/Welcome');
