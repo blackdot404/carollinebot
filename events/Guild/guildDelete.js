@@ -1,4 +1,4 @@
-const Schema = require('../../models/GuildUser');
+const Schema = require('../../Models/GuildUser');
 
 module.exports = {
     name: 'guildDelete',

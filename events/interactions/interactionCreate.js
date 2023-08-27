@@ -1,5 +1,5 @@
 const { CommandInteraction } = require('discord.js');
-const Schema = require('../../models/GuildUser');
+const Schema = require('../../Models/GuildUser');
 
 module.exports = {
     name: 'interactionCreate',
