@@ -110,3 +110,6 @@ dist
 
 # discloud bot config 
 discloud.config
+
+# sqlite database
+dev.sqlite

@@ -13,9 +13,9 @@ module.exports = {
 
     async execute(interaction) {
         const emojis = {
+            gerenal: '⚙️',
             info: '📋',
             mod: '🔨',
-            gerenal: '⚙️',
         };
 
         const directories = [

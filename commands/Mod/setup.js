@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const welcomeSchema = require('../../Models/Welcome');
+const welcomeSchema = require('../../models/GuildUser');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -55,34 +55,49 @@ module.exports = {
             });
         }
 
-        welcomeSchema.findOne(
-            { Guild: interaction.guild.id },
-            async (err, data) => {
-                if (!data) {
-                    await welcomeSchema.create({
-                        Guild: interaction.guild.id,
-                        Channel: welcomeChannel.id,
-                        RoleChannel: roleChannel.id,
-                        Msg: welcomeMessage,
-                        Role: roleId.id,
-                    });
-                } else {
-                    await welcomeSchema.findOneAndUpdate(
-                        { Guild: interaction.guild.id },
-                        {
-                            Channel: welcomeChannel.id,
-                            RoleChannel: roleChannel.id,
-                            Msg: welcomeMessage,
-                            Role: roleId.id,
-                        }
-                    );
-                }
+        const data = await welcomeSchema.findOne({
+            where: { Guild: interaction.guild.id },
+        });
+        if (!data) {
+            await welcomeSchema.create({
+                Guild: interaction.guild.id,
+                Channel: welcomeChannel.id,
+                RoleChannel: roleChannel.id,
+                Msg: welcomeMessage,
+                Role: roleId.id,
+            });
+        } else {
+            const fields = {
+                Channel: welcomeChannel.id,
+                RoleChannel: roleChannel.id,
+                Msg: welcomeMessage,
+                Role: roleId.id,
+            };
 
-                interaction.reply({
-                    content: 'Configuração inicial efetuada!! 🥰',
-                    ephemeral: true,
-                });
+            for (const field in fields) {
+                if (data.field !== fields[field]) {
+                    await welcomeSchema
+                        .update(
+                            { [field]: fields[field] },
+                            { where: { Guild: interaction.guild.id } }
+                        )
+                        .then((success) => {
+                            console.log(`Tudo certo, ${success}.`);
+                        })
+                        .catch((error) => {
+                            interaction.reply({
+                                content:
+                                    'Foi encontrado um erro fale com o administrador. 😓',
+                                ephemeral: true,
+                            });
+                            console.log(`Failed to update ${error}.`);
+                        });
+                }
             }
-        );
+        }
+        interaction.reply({
+            content: 'Configuração inicial efetuada!! 🥰',
+            ephemeral: true,
+        });
     },
 };

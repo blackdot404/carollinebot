@@ -4,10 +4,10 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
     SlashCommandBuilder,
-    // CommandInteraction,
+    CommandInteraction,
     PermissionFlagsBits,
 } = require('discord.js');
-const Schema = require('../../Models/Welcome');
+const Schema = require('../../models/GuildUser');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -21,18 +21,29 @@ module.exports = {
         // )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
-        Schema.findOne({ Guild: interaction.guild.id }, async (err, data) => {
-            if (!data) return;
-            const channel = await interaction.guild.channels.cache.get(
+        const data = await Schema.findOne({
+            where: { Guild: interaction.guild.id },
+        });
+        if (!data) {
+            return interaction.reply({
+                content:
+                    'Você não configurou o bot para o seu servidor utilize o comando abaixo e efetue a configuração. ```/setup```',
+                ephemeral: true,
+            });
+        }
+
+        try {
+            const channel = await interaction.guild.channels.fetch(
                 data.RoleChannel
             );
+
             const verifyEmbed = new EmbedBuilder()
                 .setTitle(':name_badge: Regras do Servidor :name_badge:')
                 .setDescription(
                     'Clique no botão se você concorda com as regras apresentadas acima.'
                 )
                 .setColor(16312092);
-            let sendChannel = channel.send({
+            channel.send({
                 embeds: [verifyEmbed],
                 components: [
                     new ActionRowBuilder().setComponents(
@@ -43,18 +54,17 @@ module.exports = {
                     ),
                 ],
             });
-            if (!sendChannel) {
-                return interaction.reply({
-                    content:
-                        'Ops... Não foi possivel atender sua solicitação! Tente depois😓.',
-                    ephemeral: true,
-                });
-            } else {
-                return interaction.reply({
-                    content: 'Canal de verificação setado com sucesso!🥰.',
-                    ephemeral: true,
-                });
-            }
+        } catch (err) {
+            console.error(err);
+            return interaction.reply({
+                content:
+                    'Ops... Não foi possivel atender sua solicitação! Tente depois😓.',
+                ephemeral: true,
+            });
+        }
+        return interaction.reply({
+            content: 'Canal de verificação setado com sucesso!🥰.',
+            ephemeral: true,
         });
     },
 };

@@ -1,19 +1,13 @@
 require('dotenv').config();
-// const { Client } = require('discord.js');
-const mongoose = require('mongoose');
-const { DB_CONNECTION } = process.env;
+const sequelize = require('../../config/database');
 
 module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
-        await mongoose.connect(`${DB_CONNECTION}` || '', {
-            keepAlive: true,
-        });
-        if (mongoose.connect) {
-            console.log('Connection to MongoDB database was successful.');
-        }
-
+        sequelize
+            .sync()
+            .then(() => console.log('Connection to database was successful.'));
         console.log(`${client.user.username} is now online.`);
     },
 };

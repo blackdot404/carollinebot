@@ -1,4 +1,4 @@
-const Schema = require('../../Models/Welcome');
+const Schema = require('../../models/GuildUser');
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
