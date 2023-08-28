@@ -67,33 +67,15 @@ module.exports = {
                 Role: roleId.id,
             });
         } else {
-            const fields = {
-                Channel: welcomeChannel.id,
-                RoleChannel: roleChannel.id,
-                Msg: welcomeMessage,
-                Role: roleId.id,
-            };
-
-            for (const field in fields) {
-                if (data.field !== fields[field]) {
-                    await welcomeSchema
-                        .update(
-                            { [field]: fields[field] },
-                            { where: { Guild: interaction.guild.id } }
-                        )
-                        .then((success) => {
-                            console.log(`Tudo certo, ${success}.`);
-                        })
-                        .catch((error) => {
-                            interaction.reply({
-                                content:
-                                    'Foi encontrado um erro fale com o administrador. 😓',
-                                ephemeral: true,
-                            });
-                            console.log(`Failed to update ${error}.`);
-                        });
-                }
-            }
+            await welcomeSchema.update(
+                {
+                    Channel: welcomeChannel.id,
+                    RoleChannel: roleChannel.id,
+                    Msg: welcomeMessage,
+                    Role: roleId.id,
+                },
+                { where: { Guild: interaction.guild.id } }
+            );
         }
         interaction.reply({
             content: 'Configuração inicial efetuada!! 🥰',
