@@ -58,7 +58,7 @@ module.exports = {
         const data = await welcomeSchema.findOne({
             where: { Guild: interaction.guild.id },
         });
-        if (!data) {
+        if (data === null) {
             await welcomeSchema.create({
                 Guild: interaction.guild.id,
                 Channel: welcomeChannel.id,

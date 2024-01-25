@@ -1,4 +1,5 @@
 require('dotenv').config();
+const sequelize = require('./config/database');
 const { TOKEN_BOT } = process.env;
 const {
     Client,
@@ -24,3 +25,9 @@ client.login(TOKEN_BOT).then(() => {
     loadEvents(client);
     loadCommands(client);
 });
+
+(async () => {
+    await sequelize
+        .sync({})
+        .then(() => console.log('Connection to database was successful.'));
+})();
