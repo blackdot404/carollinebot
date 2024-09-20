@@ -8,7 +8,6 @@ lerna-debug.log*
 
 
 # ignored files
-img/
 package-lock.json
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
@@ -113,3 +112,6 @@ discloud.config
 
 # sqlite database
 dev.sqlite
+
+# certificate database aiven
+ca.pem
