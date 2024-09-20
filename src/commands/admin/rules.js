@@ -73,7 +73,7 @@ module.exports = {
                             \n- **Divulgação**
                             \nQualquer tipo de divulgação não é permitida neste servidor, serão atendidos com sua remoção temporária ou permanente deste servidor.
                             \n- **Administração do Servidor**
-                            \nO servidor é composto pelo <@&368802280453177344>, os maiores cargos. Cada um tem sua jurisdição no servidor, portanto, respeite.
+                            \nO servidor é composto pelo <@&368802280453177344>. Cada um tem sua jurisdição no servidor, portanto, respeite.
                             \nSe você concorda com todas as regras listadas clique no botão abaixo, para que o recrutamento seja liberado.
                             `);
 
