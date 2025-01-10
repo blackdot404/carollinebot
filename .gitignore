@@ -112,6 +112,7 @@ discloud.config
 
 # sqlite database
 dev.sqlite
+database.sqlite
 
 # certificate database aiven
 ca.pem
