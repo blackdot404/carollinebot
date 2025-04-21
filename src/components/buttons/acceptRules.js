@@ -1,11 +1,11 @@
-const UserGuild = require('../../models/UserGuild');
+const userGuild = require('../../models/userGuild');
 
 module.exports = {
     data: {
         name: 'acceptRules',
     },
     async execute(interaction) {
-        const data = await UserGuild.findOne({
+        const data = await userGuild.findOne({
             attributes: ['Guild', 'Role'],
             where: { Guild: interaction.guild.id },
         });
