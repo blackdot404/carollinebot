@@ -1,21 +1,21 @@
-const UserReacts = require('../../models/UserReacts');
-const UserGuild = require('../../models/UserGuild');
+const userReacts = require('../../models/userReacts');
+const userGuild = require('../../models/userGuild');
 
 module.exports = {
     name: 'messageReactionRemove',
     async execute(messageReaction, user) {
         if (user.bot) return;
-        const userGuild = await UserGuild.findOne({
+        const userGuilds = await userGuild.findOne({
             attributes: ['ClassChannel'],
             where: {
                 Guild: messageReaction.message.guild.id,
             },
         });
 
-        if (messageReaction.message.channel.id != userGuild.ClassChannel) {
+        if (messageReaction.message.channel.id != userGuilds.ClassChannel) {
             return;
         }
-        const data = await UserReacts.findOne({
+        const data = await userReacts.findOne({
             attributes: ['idRole', 'strRole'],
             where: {
                 idGuild: messageReaction.message.guild.id,
@@ -23,7 +23,7 @@ module.exports = {
             },
         });
 
-        if (!data || !userGuild) return;
+        if (!data || !userGuilds) return;
 
         const guildMember =
             await messageReaction.message.guild.members.cache.get(user.id);
