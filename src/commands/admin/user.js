@@ -4,7 +4,7 @@ const {
     EmbedBuilder,
 } = require('discord.js');
 
-const UserGuildSettings = require('../../models/UserGuildSettings');
+const userGuildSettings = require('../../models/userGuildSettings');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -25,7 +25,7 @@ module.exports = {
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
 
-        const data = await UserGuildSettings.findOne({
+        const data = await userGuildSettings.findOne({
             attributes: ['Guild'],
             where: { Guild: interaction.guild.id },
         });
@@ -41,12 +41,12 @@ module.exports = {
                     .setColor(0x0099ff);
 
                 if (!data) {
-                    await UserGuildSettings.create({
+                    await userGuildSettings.create({
                         Guild: interaction.guild.id,
                         LogChannel: logChannel.id,
                     });
                 } else {
-                    await UserGuildSettings.update(
+                    await userGuildSettings.update(
                         { LogChannel: logChannel.id },
                         { where: { Guild: interaction.guild.id } },
                     );
