@@ -1,13 +1,14 @@
 /* eslint no-case-declarations: "error"*/
 /* eslint-env es6*/
+/*eslint indent: "error"*/
 
 const {
     SlashCommandBuilder,
     PermissionFlagsBits,
     EmbedBuilder,
 } = require('discord.js');
-const UserReacts = require('../../models/UserReacts');
-const UserGuild = require('../../models/UserGuild');
+const userReacts = require('../../models/userReacts');
+const userGuild = require('../../models/userGuild');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -87,7 +88,7 @@ module.exports = {
     async execute(interaction, client) {
         const subcommand = interaction.options.getSubcommand();
 
-        const userGuild = await UserGuild.findOne({
+        const userGuilds = await userGuild.findOne({
             attributes: ['Guild', 'ClassChannel'],
             where: { Guild: interaction.guild.id },
         });
@@ -99,12 +100,12 @@ module.exports = {
                 const idGroup = interaction.options.getInteger('grupo');
                 const emojiSplit = idEmoji.replace(/[<@>]/g, '').split(':');
 
-                const userReact = await UserReacts.findOne({
+                const userReact = await userReacts.findOne({
                     attributes: ['idEmoji'],
                     where: { idEmoji: emojiSplit[2] },
                 });
 
-                if (userGuild === null) {
+                if (userGuilds === null) {
                     const embedFailed = new EmbedBuilder()
                         .setDescription(
                             '🤖 Você ainda não configurou o bot, use o comando /config',
@@ -131,15 +132,16 @@ module.exports = {
                     });
                 }
 
-                await UserReacts.create({
-                    idEmoji: emojiSplit[2],
-                    strName: emojiSplit[1],
-                    idRole: idRole.id,
-                    strRole: idRole.name,
-                    idGroup: idGroup,
-                    idGuild: userGuild.Guild,
-                    idClassChannel: userGuild.ClassChannel,
-                })
+                await userReacts
+                    .create({
+                        idEmoji: emojiSplit[2],
+                        strName: emojiSplit[1],
+                        idRole: idRole.id,
+                        strRole: idRole.name,
+                        idGroup: idGroup,
+                        idGuild: userGuilds.Guild,
+                        idClassChannel: userGuilds.ClassChannel,
+                    })
                     .then(() => {
                         interaction.reply({
                             embeds: [embedSucess],
@@ -158,7 +160,7 @@ module.exports = {
                 const idEmoji = interaction.options.getString('emoji');
                 const emojiSplit = idEmoji.replace(/[<@>]/g, '').split(':');
 
-                const userReact = await UserReacts.findOne({
+                const userReact = await userReacts.findOne({
                     attributes: ['idEmoji'],
                     where: { idEmoji: emojiSplit[2] },
                 });
@@ -178,13 +180,15 @@ module.exports = {
                     });
                 }
 
-                await UserReacts.destroy({
-                    where: { idEmoji: emojiSplit[2] },
-                }).then(() => {
-                    interaction.reply({
-                        embeds: [embedSucess],
+                await userReacts
+                    .destroy({
+                        where: { idEmoji: emojiSplit[2] },
+                    })
+                    .then(() => {
+                        interaction.reply({
+                            embeds: [embedSucess],
+                        });
                     });
-                });
                 break;
             }
 
@@ -192,7 +196,7 @@ module.exports = {
                 const idGroup = interaction.options.getInteger('grupo');
                 const tituloEmbed = interaction.options.getString('titulo');
 
-                const userReact = await UserReacts.findAll({
+                const userReact = await userReacts.findAll({
                     attributes: ['idGuild', 'idEmoji', 'idRole', 'strName'],
                     where: { idGuild: interaction.guild.id, idGroup: idGroup },
                 });
@@ -203,7 +207,7 @@ module.exports = {
                     break;
                 }
 
-                if (userGuild === null) {
+                if (userGuilds === null) {
                     const embedFailed = new EmbedBuilder()
                         .setDescription(
                             '🤖 Você ainda não configurou o bot, use o comando /config',
@@ -217,7 +221,7 @@ module.exports = {
                 }
 
                 const channel = client.channels.cache.get(
-                    userGuild.ClassChannel,
+                    userGuilds.ClassChannel,
                 );
 
                 const embedSucessEmojis = new EmbedBuilder()
