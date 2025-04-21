@@ -8,9 +8,9 @@ const {
     ButtonBuilder,
 } = require('discord.js');
 const Canvas = require('@napi-rs/canvas');
-const path = require('path');
+// const path = require('path');
 
-const UserGuild = require('../../models/UserGuild');
+const userGuild = require('../../models/userGuild');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -18,7 +18,7 @@ module.exports = {
         .setDescription('Integra o sistema de regras ao servidor.')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction, client) {
-        const data = await UserGuild.findOne({
+        const data = await userGuild.findOne({
             attributes: ['Guild', 'RoleChannel'],
             where: { Guild: interaction.guild.id },
         });
@@ -40,9 +40,8 @@ module.exports = {
             .setColor(0x0099ff);
 
         const channel = client.channels.cache.get(data.RoleChannel);
-        const pathImage = path.resolve(
-            '/home/blacks/dev/carollinebot/src/img/rules.png',
-        );
+        const pathImage =
+            'https://raw.githubusercontent.com/blackdot404/carollinebot/refs/heads/main/src/img/rules.png';
         const canvas = Canvas.createCanvas(692, 317);
         const context = canvas.getContext('2d');
         const background = await Canvas.loadImage(pathImage);
