@@ -3,7 +3,7 @@ const {
     PermissionFlagsBits,
     EmbedBuilder,
 } = require('discord.js');
-const UserGuild = require('../../models/UserGuild');
+const userGuild = require('../../models/userGuild');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -78,18 +78,19 @@ module.exports = {
             });
         }
 
-        const data = await UserGuild.findOne({
+        const data = await userGuild.findOne({
             where: { Guild: interaction.guild.id },
         });
         if (!data) {
-            await UserGuild.create({
-                Guild: interaction.guild.id,
-                Channel: Channel.id,
-                RoleChannel: RoleChannel.id,
-                ClassChannel: ClassChannel.id,
-                Msg: Msg,
-                Role: Role.id,
-            })
+            await userGuild
+                .create({
+                    Guild: interaction.guild.id,
+                    Channel: Channel.id,
+                    RoleChannel: RoleChannel.id,
+                    ClassChannel: ClassChannel.id,
+                    Msg: Msg,
+                    Role: Role.id,
+                })
                 .then(() => {
                     interaction.reply({
                         embeds: [embedSucess],
@@ -104,16 +105,17 @@ module.exports = {
                     });
                 });
         } else {
-            await UserGuild.update(
-                {
-                    Channel: Channel.id,
-                    RoleChannel: RoleChannel.id,
-                    ClassChannel: ClassChannel.id,
-                    Msg: Msg,
-                    Role: Role.id,
-                },
-                { where: { Guild: interaction.guild.id } },
-            )
+            await userGuild
+                .update(
+                    {
+                        Channel: Channel.id,
+                        RoleChannel: RoleChannel.id,
+                        ClassChannel: ClassChannel.id,
+                        Msg: Msg,
+                        Role: Role.id,
+                    },
+                    { where: { Guild: interaction.guild.id } },
+                )
                 .then(() => {
                     interaction.reply({
                         embeds: [embedSucess],
