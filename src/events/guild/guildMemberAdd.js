@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const UserGuild = require('../../models/UserGuild');
+const userGuild = require('../../models/userGuild');
 
 module.exports = {
     name: 'guildMemberAdd',
@@ -10,14 +10,14 @@ module.exports = {
             'client' representa o bot discord
         */
 
-        const data = await UserGuild.findOne({
+        const data = await userGuild.findOne({
             where: { Guild: member.guild.id },
         });
         if (!data) return;
         if (member.user.bot) return;
         const channel = data.Channel;
         const roleChannel = data.RoleChannel;
-        const recruitChannel = data.RecruitChannel;
+        // const recruitChannel = data.RecruitChannel;
 
         // const recruitChannel = data.RecruitChannel;
         const classChannel = data.ClassChannel;
@@ -39,11 +39,6 @@ module.exports = {
                 {
                     name: ':scroll:Leia as Regras:',
                     value: `<#${roleChannel}>`,
-                    inline: true,
-                },
-                {
-                    name: ':handshake:Se apresente:',
-                    value: `<#${recruitChannel}>`,
                     inline: true,
                 },
                 {
