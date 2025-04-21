@@ -5,7 +5,7 @@ const userGuild = sequelize.define('userGuild', {
     Guild: DataTypes.STRING,
     Channel: DataTypes.STRING,
     RoleChannel: DataTypes.STRING,
-    ClassChannel: DataTypes.STRING,
+    // ClassChannel: DataTypes.STRING,
     Msg: DataTypes.STRING,
     Role: DataTypes.STRING,
 });
