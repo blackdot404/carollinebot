@@ -1,10 +1,10 @@
 const { EmbedBuilder } = require('discord.js');
-const UserGuildSettings = require('../../models/UserGuildSettings');
+const userGuildSettings = require('../../models/userGuildSettings');
 
 module.exports = {
     name: 'guildMemberRemove',
     async execute(member) {
-        const data = await UserGuildSettings.findOne({
+        const data = await userGuildSettings.findOne({
             attributes: ['Guild', 'LogChannel'],
             where: { Guild: member.guild.id },
         });
