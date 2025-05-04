@@ -5,7 +5,11 @@
         "es2021": true,
         "node": true
     },
-    "extends": ["eslint:recommended", "prettier"],
+    "extends": [
+        "eslint:recommended",
+        "prettier",
+        "plugin:prettier/recommended"
+    ],
     "overrides": [],
     "parserOptions": {
         "ecmaVersion": "latest"
