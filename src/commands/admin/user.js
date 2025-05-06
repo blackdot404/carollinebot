@@ -1,3 +1,4 @@
+/*eslint indent: "error"*/
 const {
     SlashCommandBuilder,
     PermissionFlagsBits,
