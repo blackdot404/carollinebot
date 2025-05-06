@@ -5,13 +5,15 @@ module.exports = (client) => {
         setInterval(async () => {
             const data = await guildMemberCount.findAll({ raw: true });
 
+            if (!data) return;
+
             for (const { guildId, channelId } of data) {
                 const guild = client.guilds.cache.get(guildId);
                 if (!guild) {
                     console.warn(
                         `[WARN] Guild ${guildId} não encontrada no cache.`,
                     );
-                    break;
+                    continue;
                 }
 
                 const memberCount = guild.memberCount;
@@ -21,7 +23,7 @@ module.exports = (client) => {
                     console.warn(
                         `[WARN] Canal ${channelId} não encontrado no guild ${guildId}.`,
                     );
-                    break;
+                    continue;
                 }
 
                 try {
