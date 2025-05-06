@@ -1,18 +1,19 @@
 const { ActivityType } = require('discord.js');
+
 module.exports = {
     name: 'ready',
-    once: true,
     async execute(client) {
         console.log(`[INSTANCIA]: ${client.user.tag} online!`);
+        client.memberCounter();
 
         const status = [
             {
                 name: '📌 /help saiba mais',
-                type: ActivityType.Custom,
+                type: ActivityType.Listening,
             },
             {
                 name: '🥰 Avatar by @.pessoinha',
-                type: ActivityType.Custom,
+                type: ActivityType.Streaming,
             },
         ];
 
