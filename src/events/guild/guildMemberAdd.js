@@ -17,10 +17,6 @@ module.exports = {
         if (member.user.bot) return;
         const channel = data.Channel;
         const roleChannel = data.RoleChannel;
-        // const recruitChannel = data.RecruitChannel;
-
-        // const recruitChannel = data.RecruitChannel;
-        const classChannel = data.ClassChannel;
 
         const { user, guild } = member;
 
@@ -41,11 +37,11 @@ module.exports = {
                     value: `<#${roleChannel}>`,
                     inline: true,
                 },
-                {
-                    name: ':military_medal:Adquire as tags:',
-                    value: `<#${classChannel}>`,
-                    inline: true,
-                },
+                // {
+                //     name: ':military_medal:Adquire as tags:',
+                //     value: `<#${classChannel}>`,
+                //     inline: true,
+                // },
             )
             .setColor(0x0099ff)
             .setFooter({
