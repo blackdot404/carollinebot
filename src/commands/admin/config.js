@@ -22,18 +22,6 @@ module.exports = {
                 .setDescription('Canal com as regras do servidor.')
                 .setRequired(true),
         )
-        // .addChannelOption((option) =>
-        //     option
-        //         .setName('canal-recruit')
-        //         .setDescription('Canal para recrutamento do novato.')
-        //         .setRequired(true),
-        // )
-        .addChannelOption((option) =>
-            option
-                .setName('canal-classes')
-                .setDescription('Canal para o novato escolher as tags.')
-                .setRequired(true),
-        )
         .addRoleOption((option) =>
             option
                 .setName('cargo')
@@ -54,8 +42,6 @@ module.exports = {
         const Msg = options.getString('mensagem');
         const Role = options.getRole('cargo');
         const RoleChannel = options.getChannel('canal-regras');
-        // const RecruitChannel = options.getChannel('canal-recruit');
-        const ClassChannel = options.getChannel('canal-classes');
 
         const embedSucess = new EmbedBuilder()
             .setDescription('🥰 Configuração inicial efetuada!!')
@@ -87,7 +73,6 @@ module.exports = {
                     Guild: interaction.guild.id,
                     Channel: Channel.id,
                     RoleChannel: RoleChannel.id,
-                    ClassChannel: ClassChannel.id,
                     Msg: Msg,
                     Role: Role.id,
                 })
@@ -110,7 +95,6 @@ module.exports = {
                     {
                         Channel: Channel.id,
                         RoleChannel: RoleChannel.id,
-                        ClassChannel: ClassChannel.id,
                         Msg: Msg,
                         Role: Role.id,
                     },
