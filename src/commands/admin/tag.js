@@ -1,14 +1,10 @@
-/* eslint no-case-declarations: "error"*/
-/* eslint-env es6*/
-/*eslint indent: "error"*/
-
 const {
     SlashCommandBuilder,
     PermissionFlagsBits,
     EmbedBuilder,
 } = require('discord.js');
 const userReacts = require('../../models/userReacts');
-const userGuild = require('../../models/userGuild');
+const guildReactConfig = require('../../models/guildReactConfig');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -75,12 +71,14 @@ module.exports = {
         )
         .addSubcommand((subcommand) =>
             subcommand
-                .setName('ttl')
-                .setDescription('Testa o retorno userguilda')
-                .addStringOption((option) =>
+                .setName('config')
+                .setDescription(
+                    'Configura o canal de texto para emoji, um canal por servidor.',
+                )
+                .addChannelOption((option) =>
                     option
-                        .setName('emoji')
-                        .setDescription('Insira o ID do emoji')
+                        .setName('canal')
+                        .setDescription('Insira o canal de texto')
                         .setRequired(true),
                 ),
         )
@@ -88,9 +86,8 @@ module.exports = {
     async execute(interaction, client) {
         const subcommand = interaction.options.getSubcommand();
 
-        const userGuilds = await userGuild.findOne({
-            attributes: ['Guild', 'ClassChannel'],
-            where: { Guild: interaction.guild.id },
+        const userData = await guildReactConfig.findOne({
+            where: { guildId: interaction.guild.id },
         });
 
         switch (subcommand) {
@@ -105,10 +102,10 @@ module.exports = {
                     where: { idEmoji: emojiSplit[2] },
                 });
 
-                if (userGuilds === null) {
+                if (userData === null) {
                     const embedFailed = new EmbedBuilder()
                         .setDescription(
-                            '🤖 Você ainda não configurou o bot, use o comando /config',
+                            '🤖 Você ainda não configurou o bot, use o comando /tag config',
                         )
                         .setColor(10944512);
 
@@ -139,8 +136,8 @@ module.exports = {
                         idRole: idRole.id,
                         strRole: idRole.name,
                         idGroup: idGroup,
-                        idGuild: userGuilds.Guild,
-                        idClassChannel: userGuilds.ClassChannel,
+                        idGuild: userData.guildId,
+                        idClassChannel: userData.channelId,
                     })
                     .then(() => {
                         interaction.reply({
@@ -207,10 +204,10 @@ module.exports = {
                     break;
                 }
 
-                if (userGuilds === null) {
+                if (userData === null) {
                     const embedFailed = new EmbedBuilder()
                         .setDescription(
-                            '🤖 Você ainda não configurou o bot, use o comando /config',
+                            '🤖 Você ainda não configurou o bot, use o comando /tag config',
                         )
                         .setColor(10944512);
 
@@ -220,9 +217,7 @@ module.exports = {
                     break;
                 }
 
-                const channel = client.channels.cache.get(
-                    userGuilds.ClassChannel,
-                );
+                const channel = client.channels.cache.get(userData.channelId);
 
                 const embedSucessEmojis = new EmbedBuilder()
                     .setTitle(tituloEmbed)
@@ -244,7 +239,11 @@ module.exports = {
                 userReact.forEach((id) => {
                     messageId
                         .react(interaction.guild.emojis.cache.get(id.idEmoji))
-                        .then()
+                        .then(
+                            console.log(
+                                `[EMOJI SYSTEM]: REAGINDO A MENSAGEM: ${messageId.id}, COM O EMOJI ${id.idEmoji}.`,
+                            ),
+                        )
                         .catch(console.error);
                 });
 
@@ -253,6 +252,35 @@ module.exports = {
                 });
 
                 break;
+            }
+            case 'config': {
+                const channelId = interaction.options.getChannel('canal');
+
+                if (!userData) {
+                    await guildReactConfig.create({
+                        guildId: interaction.guild.id,
+                        channelId: channelId.id,
+                    });
+
+                    interaction.reply({
+                        content: '🎉 Canal de reações configurado com sucesso!',
+                        ephemeral: true,
+                    });
+
+                    break;
+                } else {
+                    await guildReactConfig.update(
+                        { channelId: channelId.id },
+                        { where: { guildId: interaction.guild.id } },
+                    );
+
+                    interaction.reply({
+                        content: '🎉 Canal de reações atualizado com sucesso!',
+                        ephemeral: true,
+                    });
+
+                    break;
+                }
             }
             default:
                 break;
