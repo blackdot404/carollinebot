@@ -12,11 +12,7 @@ module.exports = {
         const newEmbed = new EmbedBuilder()
             .setColor(0x0099ff)
             .setTitle('🏓 Pong')
-            .setDescription(
-                `Latencia API: ${client.ws.ping}ms.\nClient Ping: ${
-                    message.createdTimestamp - interaction.createdTimestamp
-                }ms.`,
-            )
+            .setDescription(`Latencia API: ${client.ws.ping}ms.`)
             .setFooter({
                 text: interaction.user.username,
                 iconURL: interaction.user.displayAvatarURL(),
