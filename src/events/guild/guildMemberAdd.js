@@ -51,6 +51,7 @@ module.exports = {
             .setTimestamp()
             .setThumbnail(user.displayAvatarURL());
 
+        member.client.memberCounter(member.guild.id);
         welcomeChannel.send({ embeds: [welcomeEmbed] });
     },
 };
