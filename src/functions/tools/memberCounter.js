@@ -1,45 +1,37 @@
 const guildMemberCount = require('../../models/guildMemberCount');
 
 module.exports = (client) => {
-    client.memberCounter = async () => {
-        setInterval(async () => {
-            const data = await guildMemberCount.findAll({ raw: true });
+    client.memberCounter = async (guildId) => {
+        const data = await guildMemberCount.findOne({
+            where: { guildId: guildId },
+        });
 
-            if (!data) return;
+        if (!data) return;
 
-            for (const { guildId, channelId } of data) {
-                const guild = client.guilds.cache.get(guildId);
-                if (!guild) {
-                    console.warn(
-                        `[WARN] Guild ${guildId} não encontrada no cache.`,
-                    );
-                    continue;
-                }
+        const { channelId } = data;
+        const guild = client.guilds.cache.get(guildId);
+        if (!guild) {
+            console.warn(`[WARN] Guild ${guildId} não encontrada no cache.`);
+            return;
+        }
 
-                const memberCount = guild.memberCount;
+        const memberCount = guild.memberCount;
 
-                const channel = guild.channels.cache.get(channelId);
-                if (!channel) {
-                    console.warn(
-                        `[WARN] Canal ${channelId} não encontrado no guild ${guildId}.`,
-                    );
-                    continue;
-                }
+        const channel = guild.channels.cache.get(channelId);
+        if (!channel) {
+            console.warn(
+                `[WARN] Canal ${channelId} não encontrado no guild ${guildId}.`,
+            );
+            return;
+        }
 
-                try {
-                    await channel.setName(
-                        `👥Membros: ${memberCount.toLocaleString()}`,
-                    );
-                    console.log(
-                        `[UPDATE-COUNT] Canal atualizado para guild ${guildId}`,
-                    );
-                } catch (err) {
-                    console.error(
-                        `[ERROR] Erro ao atualizar canal ${channelId}:`,
-                        err,
-                    );
-                }
-            }
-        }, 3600000);
+        try {
+            await channel.setName(`👥Membros: ${memberCount.toLocaleString()}`);
+            console.log(`[COUNTER] Canal atualizado para guild ${guildId}`);
+            return;
+        } catch (err) {
+            console.error(`[ERROR] Erro ao atualizar canal ${channelId}:`, err);
+            return;
+        }
     };
 };
