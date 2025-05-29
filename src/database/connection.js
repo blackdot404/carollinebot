@@ -11,14 +11,7 @@ const sequelize = new Sequelize(
         host: process.env.AIVEN_HOST,
         port: process.env.AIVEN_PORT,
         dialect: 'postgres',
-        logging: false,
-        dialectOptions: {
-            ssl: {
-                require: true,
-                rejectUnauthorized: true,
-                ca: fs.readFileSync('./ca.pem').toString(),
-            },
-        },
+        logging: true,
     },
 );
 module.exports = sequelize;
