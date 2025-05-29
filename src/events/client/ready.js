@@ -4,7 +4,6 @@ module.exports = {
     name: 'ready',
     async execute(client) {
         console.log(`[INSTANCIA]: ${client.user.tag} online!`);
-        client.memberCounter();
 
         const status = [
             {
