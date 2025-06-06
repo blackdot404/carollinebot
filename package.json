@@ -28,6 +28,7 @@
         "prettier": "^3.3.3"
     },
     "dependencies": {
+        "@discordjs/builders": "^1.11.2",
         "@discordjs/rest": "^2.4.0",
         "@napi-rs/canvas": "^0.1.56",
         "@sequelize/sqlite3": "7.0.0-alpha.43",
