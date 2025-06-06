@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@discordjs/builders':
+        specifier: ^1.11.2
+        version: 1.11.2
       '@discordjs/rest':
         specifier: ^2.4.0
         version: 2.4.0
@@ -63,9 +66,9 @@ importers:
 
 packages:
 
-  '@discordjs/builders@1.9.0':
-    resolution: {integrity: sha512-0zx8DePNVvQibh5ly5kCEei5wtPBIUbSoE9n+91Rlladz4tgtFbJ36PZMxxZrTEOQ7AHMZ/b0crT/0fCy6FTKg==}
-    engines: {node: '>=18'}
+  '@discordjs/builders@1.11.2':
+    resolution: {integrity: sha512-F1WTABdd8/R9D1icJzajC4IuLyyS8f3rTOz66JsSI3pKvpCAtsMBweu8cyNYsIyvcrKAVn9EPK+Psoymq+XC0A==}
+    engines: {node: '>=16.11.0'}
 
   '@discordjs/collection@1.5.3':
     resolution: {integrity: sha512-SVb428OMd3WO1paV3rm6tSjM4wC+Kecaa1EUGX7vc6/fddvw/6lg90z4QtCqm21zvVe92vMMDt9+DkIvjXImQQ==}
@@ -78,6 +81,10 @@ packages:
   '@discordjs/formatters@0.5.0':
     resolution: {integrity: sha512-98b3i+Y19RFq1Xke4NkVY46x8KjJQjldHUuEbCqMvp1F5Iq9HgnGpu91jOi/Ufazhty32eRsKnnzS8n4c+L93g==}
     engines: {node: '>=18'}
+
+  '@discordjs/formatters@0.6.1':
+    resolution: {integrity: sha512-5cnX+tASiPCqCWtFcFslxBVUaCetB0thvM/JyavhbXInP1HJIEU+Qv/zMrnuwSsX3yWH2lVXNJZeDK3EiP4HHg==}
+    engines: {node: '>=16.11.0'}
 
   '@discordjs/rest@2.4.0':
     resolution: {integrity: sha512-Xb2irDqNcq+O8F0/k/NaDp7+t091p+acb51iA4bCKfIn+WFWd6HrNvcsSbMMxIR9NjcMZS6NReTKygqiQN+ntw==}
@@ -498,6 +505,9 @@ packages:
 
   discord-api-types@0.37.97:
     resolution: {integrity: sha512-No1BXPcVkyVD4ZVmbNgDKaBoqgeQ+FJpzZ8wqHkfmBnTZig1FcH3iPPersiK1TUIAzgClh2IvOuVUYfcWLQAOA==}
+
+  discord-api-types@0.38.11:
+    resolution: {integrity: sha512-XN0qhcQpetkyb/49hcDHuoeUPsQqOkb17wbV/t48gUkoEDi4ajhsxqugGcxvcN17BBtI9FPPWEgzv6IhQmCwyw==}
 
   discord.js@14.16.2:
     resolution: {integrity: sha512-VGNi9WE2dZIxYM8/r/iatQQ+3LT8STW4hhczJOwm+DBeHq66vsKDCk8trChNCB01sMO9crslYuEMeZl2d7r3xw==}
@@ -1684,12 +1694,12 @@ packages:
 
 snapshots:
 
-  '@discordjs/builders@1.9.0':
+  '@discordjs/builders@1.11.2':
     dependencies:
-      '@discordjs/formatters': 0.5.0
+      '@discordjs/formatters': 0.6.1
       '@discordjs/util': 1.1.1
       '@sapphire/shapeshift': 4.0.0
-      discord-api-types: 0.37.97
+      discord-api-types: 0.38.11
       fast-deep-equal: 3.1.3
       ts-mixer: 6.0.4
       tslib: 2.7.0
@@ -1701,6 +1711,10 @@ snapshots:
   '@discordjs/formatters@0.5.0':
     dependencies:
       discord-api-types: 0.37.97
+
+  '@discordjs/formatters@0.6.1':
+    dependencies:
+      discord-api-types: 0.38.11
 
   '@discordjs/rest@2.4.0':
     dependencies:
@@ -2195,9 +2209,11 @@ snapshots:
 
   discord-api-types@0.37.97: {}
 
+  discord-api-types@0.38.11: {}
+
   discord.js@14.16.2:
     dependencies:
-      '@discordjs/builders': 1.9.0
+      '@discordjs/builders': 1.11.2
       '@discordjs/collection': 1.5.3
       '@discordjs/formatters': 0.5.0
       '@discordjs/rest': 2.4.0
