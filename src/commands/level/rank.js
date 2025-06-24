@@ -26,6 +26,12 @@ module.exports = {
                 where: { guildId },
             });
 
+            if (topUsers.length === 0) {
+                return await interaction.reply({
+                    content: 'O rank do seu servidor esta vazio.',
+                });
+            }
+
             const usersData = await Promise.all(
                 topUsers.map(async (user, index) => {
                     try {
