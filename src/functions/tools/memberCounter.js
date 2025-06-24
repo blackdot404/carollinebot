@@ -27,7 +27,9 @@ module.exports = (client) => {
 
         try {
             await channel.setName(`👥Membros: ${memberCount.toLocaleString()}`);
-            console.log(`[COUNTER] Canal atualizado para guild ${guildId}`);
+            console.log(
+                `[COUNTER] Canal atualizado para guild ${guildId} membros: ${memberCount}`,
+            );
             return;
         } catch (err) {
             console.error(`[ERROR] Erro ao atualizar canal ${channelId}:`, err);
