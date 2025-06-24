@@ -23,13 +23,12 @@ module.exports = {
                 where: { guildId, userId },
             });
 
-            if (level.userLevel == null) {
+            if (!level) {
                 return await interaction.reply({
                     content: 'Voce tem que interagir para ganhar level.',
                     ephemeral: true,
                 });
             }
-
             const nextLevelExp = await client.nextLevelUp(level.userLevel);
             const getUserWithRank = await client.getUserWithRank(
                 userId,
