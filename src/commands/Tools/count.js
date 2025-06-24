@@ -1,4 +1,8 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const {
+    SlashCommandBuilder,
+    EmbedBuilder,
+    PermissionFlagsBits,
+} = require('discord.js');
 const guildMemberCount = require('../../models/guildMemberCount');
 
 module.exports = {
@@ -14,7 +18,8 @@ module.exports = {
                     'Canal de voz que ira atualizar a quantidade de membros.',
                 )
                 .setRequired(true),
-        ),
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
         const channelId = interaction.options.getChannel('canal');
         const userMemberCount = await guildMemberCount.findOne({
