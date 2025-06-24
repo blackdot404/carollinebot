@@ -23,7 +23,7 @@ module.exports = {
                 where: { guildId, userId },
             });
 
-            if (!level.userLevel) {
+            if (level.userLevel == null) {
                 return await interaction.reply({
                     content: 'Voce tem que interagir para ganhar level.',
                     ephemeral: true,
