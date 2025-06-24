@@ -11,15 +11,16 @@ module.exports = {
         .setName('ping')
         .setDescription('Retorna o tempo de resposta do servidor.'),
     async execute(interaction, client) {
-        const guildId = interaction.guild.id;
         const message = await interaction.deferReply({
             fetchReply: true,
         });
 
-        const name = 'Carolline Bot';
+        const name = `${client.user.username}`;
         const icon = `${client.user.displayAvatarURL()}`;
-        const guild = client.guilds.cache.get(guildId);
-        const servercount = guild.memberCount;
+        const servercount = await client.guilds.cache.reduce(
+            (a, b) => a + b.memberCount,
+            0,
+        );
 
         //uptime
         let totalSeconds = client.uptime / 1000;
@@ -51,22 +52,22 @@ module.exports = {
             .setAuthor({ name: name, iconURL: icon })
             .setThumbnail(icon)
             .addFields({
-                name: 'Servidores',
+                name: ':file_cabinet: Servidores',
                 value: `${client.guilds.cache.size}`,
                 inline: false,
             })
             .addFields({
-                name: 'Membros',
+                name: ':busts_in_silhouette: Membros',
                 value: `${servercount}`,
                 inline: false,
             })
             .addFields({
-                name: 'Latencia',
+                name: ':satellite: Latencia',
                 value: `${client.ws.ping}ms.`,
                 inline: true,
             })
             .addFields({
-                name: 'Online',
+                name: ':globe_with_meridians: Online',
                 value: `\`\`\`${uptime}\`\`\``,
                 inline: false,
             })
