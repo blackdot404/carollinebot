@@ -22,6 +22,14 @@ module.exports = {
             const level = await UserLevel.findOne({
                 where: { guildId, userId },
             });
+
+            if (!level.userLevel) {
+                return await interaction.reply({
+                    content: 'Voce tem que interagir para ganhar level.',
+                    ephemeral: true,
+                });
+            }
+
             const nextLevelExp = await client.nextLevelUp(level.userLevel);
             const getUserWithRank = await client.getUserWithRank(
                 userId,
