@@ -32,6 +32,8 @@
         "@discordjs/rest": "^2.4.0",
         "@napi-rs/canvas": "^0.1.56",
         "@sequelize/sqlite3": "7.0.0-alpha.43",
+        "canvafy": "^7.2.1",
+        "canvas": "^3.1.1",
         "discord-api-types": "^0.37.100",
         "discord.js": "^14.16.2",
         "dotenv": "^16.4.5",
