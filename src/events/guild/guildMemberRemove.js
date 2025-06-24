@@ -22,6 +22,7 @@ module.exports = {
             .setColor(0xff001a)
             .setTimestamp();
 
+        member.client.memberCounter(member.guild.id);
         leaveChannel.send({ embeds: [leaveEmbed] });
     },
 };
