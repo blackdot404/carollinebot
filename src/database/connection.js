@@ -11,7 +11,7 @@ const sequelize = new Sequelize(
         host: process.env.AIVEN_HOST,
         port: process.env.AIVEN_PORT,
         dialect: 'postgres',
-        logging: true,
+        logging: false,
     },
 );
 module.exports = sequelize;
