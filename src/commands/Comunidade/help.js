@@ -73,7 +73,7 @@ module.exports = {
         });
 
         collector.on('collect', async (i) => {
-            const selectedCategory = i.value[0];
+            const selectedCategory = i.values[0];
             const categoryCommands = commandsByCategory[selectedCategory];
 
             const categoryEmbed = new EmbedBuilder()
