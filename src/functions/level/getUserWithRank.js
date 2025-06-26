@@ -15,6 +15,7 @@ module.exports = (client) => {
                 userLevel: {
                     [Op.gt]: userLevel,
                 },
+                guildId: guildId,
             },
         });
 
