@@ -11,6 +11,7 @@ module.exports = {
         .setName('help')
         .setDescription('Lista todos os comandos disponivel no Bot.'),
     async execute(interaction, client) {
+        const userId = interaction.user.id;
         const commandFolders = fs
             .readdirSync('./src/commands')
             .filter((folder) => !folder.startsWith('.'));
@@ -73,6 +74,15 @@ module.exports = {
         });
 
         collector.on('collect', async (i) => {
+            const userInteractionId = i.user.id;
+
+            if (userInteractionId != userId) {
+                return await i.reply({
+                    content: 'Use o comando /help para falar comigo.',
+                    ephemeral: true,
+                });
+            }
+
             const selectedCategory = i.values[0];
             const categoryCommands = commandsByCategory[selectedCategory];
 
