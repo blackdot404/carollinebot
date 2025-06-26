@@ -12,6 +12,8 @@ module.exports = {
             },
         });
 
+        if (!userGuilds) return;
+
         if (messageReaction.message.channel.id != userGuilds.channelId) {
             return;
         }
