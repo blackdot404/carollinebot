@@ -46,6 +46,8 @@ module.exports = {
         const guild = client.guilds.cache.get(guildId);
         const channel = guild.channels.cache.get(existingLevel.channelId);
 
+        if (!channel) return;
+
         console.log(
             `[LEVEL SYSTEM]: ${message.author.username} ganhou ${randomExp} XP! Total: ${currentExp}/${nextLevelExp}`,
         );
