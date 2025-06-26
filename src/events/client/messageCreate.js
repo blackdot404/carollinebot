@@ -101,7 +101,7 @@ module.exports = {
 
         await UserLevel.update(
             { userXp: currentExp },
-            { where: { guildId, userId } },
+            { where: { guildId: guildId, userId: userId } },
         );
     },
 };
