@@ -7,13 +7,15 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('rank')
         .setDescription('Mostra o TOP 10 do servidor.'),
-    async execute(interaction, client) {
-        const guildId = interaction.guild.id;
-        const userId = interaction.user.id;
-        const existingLevel = await Level.findOne({ where: { guildId } });
 
+    async execute(interaction, client) {
+        const guild = interaction.guild;
+        const guildId = guild.id;
+        const userId = interaction.user.id;
+
+        const existingLevel = await Level.findOne({ where: { guildId } });
         if (!existingLevel) {
-            return await interaction.reply({
+            return interaction.reply({
                 content: 'Sistema de level nao esta ativo.',
             });
         }
@@ -27,43 +29,73 @@ module.exports = {
             });
 
             if (topUsers.length === 0) {
-                return await interaction.reply({
+                return interaction.reply({
                     content: 'O rank do seu servidor esta vazio.',
                 });
             }
 
-            const usersData = await Promise.all(
-                topUsers.map(async (user, index) => {
-                    try {
-                        const discordUser = await client.users.cache.get(
-                            user.userId,
-                        );
+            // IDs como string (evita perda de precisão)
+            const ids = topUsers.map((u) => String(u.userId));
 
-                        return {
-                            top: index + 1,
-                            avatar: discordUser.displayAvatarURL(),
-                            tag: discordUser.tag ?? `${discordUser.username}`,
-                            score: user.userLevel,
-                        };
-                    } catch (error) {
-                        console.error(
-                            `Erro ao buscar o usuario ${user.userId}:`,
-                            error,
-                        );
-                        return {
-                            top: index + 1,
-                            avatar: 'https://cdn.discordapp.com/embed/avatars/0.png',
-                            tag: 'Desconhecido',
-                            score: 0,
-                        };
+            // Tenta buscar membros em lote (requer GuildMembers intent)
+            let fetchedMembers = new Map();
+            try {
+                const col = await guild.members.fetch({
+                    user: ids,
+                    force: true,
+                });
+                fetchedMembers = col; // Collection<id, GuildMember>
+            } catch (e) {
+                console.warn(
+                    'Falha ao buscar membros em lote (intent?):',
+                    e?.message || e,
+                );
+            }
+
+            const usersData = await Promise.all(
+                topUsers.map(async (u, index) => {
+                    const id = String(u.userId);
+
+                    // 1) Tenta membro da guild
+                    let member = fetchedMembers.get(id);
+                    let user = member?.user;
+
+                    // 2) Se não tiver, tenta buscar o User global
+                    if (!user) {
+                        try {
+                            user = await client.users.fetch(id, {
+                                force: true,
+                            });
+                        } catch (e) {
+                            // se falhar, continua com undefined e usa fallback
+                        }
                     }
+
+                    const name =
+                        member?.displayName ??
+                        user?.globalName ??
+                        user?.username ??
+                        `Desconhecido (${id})`;
+
+                    const avatar =
+                        member?.displayAvatarURL?.({ size: 256 }) ??
+                        user?.displayAvatarURL?.({ size: 256 }) ??
+                        'https://cdn.discordapp.com/embed/avatars/0.png';
+
+                    return {
+                        top: index + 1,
+                        avatar,
+                        tag: name, // canvafy espera uma string aqui
+                        score: Number(u.userLevel) || 0,
+                    };
                 }),
             );
+
             const top = await new Top()
                 .setOpacity(0.6)
-                .setScoreMessage('Level:') //(Preferred Option)
-                .setabbreviateNumber(false) //(Preferred Option)
-                .setBackground('color', '#000') //(Preferred Option)
+                .setScoreMessage('Level:')
+                .setabbreviateNumber(false)
+                .setBackground('color', '#000')
                 .setColors({
                     box: '#212121',
                     username: '#ffffff',
@@ -71,25 +103,26 @@ module.exports = {
                     firstRank: '#f7c716',
                     secondRank: '#9e9e9e',
                     thirdRank: '#94610f',
-                }) //(Preferred Option)
+                })
                 .setUsersData(usersData)
                 .build();
 
-            return await interaction.reply({
+            return interaction.reply({
                 files: [
-                    {
-                        attachment: top,
-                        name: `top-${userId}-${guildId}.png`,
-                    },
+                    { attachment: top, name: `top-${userId}-${guildId}.png` },
                 ],
             });
         } catch (error) {
-            await interaction.reply({
+            console.error('Erro no comando /rank:', error);
+            // Evita tentar responder 2x
+            if (interaction.deferred || interaction.replied) {
+                return;
+            }
+            return interaction.reply({
                 content:
                     'Ocorreu um erro no sistema de level, fale com o administrador. :pleading_face: ',
                 ephemeral: true,
             });
-            return console.log('Error: ', error);
         }
     },
 };
