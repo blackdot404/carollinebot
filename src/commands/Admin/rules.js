@@ -8,7 +8,6 @@ const {
     ButtonBuilder,
 } = require('discord.js');
 const Canvas = require('@napi-rs/canvas');
-// const path = require('path');
 
 const userGuild = require('../../models/userGuild');
 
