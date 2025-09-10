@@ -26,6 +26,8 @@ module.exports = {
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
 
+        await interaction.deferReply({ ephemeral: true });
+
         const data = await userGuildSettings.findOne({
             attributes: ['Guild'],
             where: { Guild: interaction.guild.id },
@@ -53,7 +55,7 @@ module.exports = {
                     );
                 }
 
-                interaction.reply({
+                interaction.editReply({
                     embeds: [embedSuccess],
                     ephemeral: true,
                 });

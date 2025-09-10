@@ -25,6 +25,8 @@ module.exports = {
             const guildId = interaction.guild.id;
             const channelId = channel.id;
 
+            await interaction.deferReply({ ephemeral: true });
+
             const existingLevel = await level.findOne({
                 where: { guildId: guildId },
             });
@@ -38,7 +40,7 @@ module.exports = {
                     { where: { guildId: guildId } },
                 );
 
-                return await interaction.reply({
+                return await interaction.editReply({
                     content:
                         'Sistema de level atualizado com sucesso. :thumbsup:',
                     ephemeral: true,
@@ -51,12 +53,12 @@ module.exports = {
                 useEmbed,
             });
 
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: 'Sistema de level configurado com sucesso. :thumbsup:',
                 ephemeral: true,
             });
         } catch (error) {
-            await interaction.reply({
+            await interaction.editReply({
                 content:
                     'Ocorreu um erro na configuracao do sistema de level, fale com o administrador. :pleading_face: ',
                 ephemeral: true,

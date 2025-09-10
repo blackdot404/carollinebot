@@ -10,10 +10,13 @@ module.exports = {
     async execute(interaction, client) {
         const guildId = interaction.guild.id;
         const userId = interaction.user.id;
+
+        await interaction.deferReply({ ephemeral: true });
+
         const existingLevel = await Level.findOne({ where: { guildId } });
 
         if (!existingLevel) {
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: 'Sistema de level nao esta ativo.',
             });
         }
@@ -24,7 +27,7 @@ module.exports = {
             });
 
             if (!level) {
-                return await interaction.reply({
+                return await interaction.editReply({
                     content: 'Voce tem que interagir para ganhar level.',
                     ephemeral: true,
                 });
@@ -56,7 +59,7 @@ module.exports = {
                 .setRequiredXp(nextLevelExp)
                 .build();
 
-            return interaction.reply({
+            return interaction.editReply({
                 files: [
                     {
                         attachment: rank,
@@ -65,7 +68,7 @@ module.exports = {
                 ],
             });
         } catch (error) {
-            await interaction.reply({
+            await interaction.editReply({
                 content:
                     'Ocorreu um erro no sistema de level, fale com o administrador. :pleading_face: ',
                 ephemeral: true,

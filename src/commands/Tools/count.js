@@ -22,6 +22,9 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
         const channelId = interaction.options.getChannel('canal');
+
+        await interaction.deferReply({ ephemeral: true });
+
         const userMemberCount = await guildMemberCount.findOne({
             where: { guildId: interaction.guild.id },
         });
@@ -39,7 +42,7 @@ module.exports = {
                 .setTimestamp()
                 .setColor(10944512);
 
-            return interaction.reply({
+            return interaction.editReply({
                 embeds: [embed],
                 ephemeral: true,
             });
@@ -59,7 +62,7 @@ module.exports = {
                 .setTimestamp()
                 .setColor(10944512);
 
-            return interaction.reply({
+            return interaction.editReply({
                 embeds: [embed],
                 ephemeral: true,
             });

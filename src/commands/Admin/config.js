@@ -43,6 +43,8 @@ module.exports = {
         const Role = options.getRole('cargo');
         const RoleChannel = options.getChannel('canal-regras');
 
+        await interaction.deferReply({ ephemeral: true });
+
         const embedSucess = new EmbedBuilder()
             .setDescription('🥰 Configuração inicial efetuada!!')
             .setColor(0x0099ff);
@@ -58,7 +60,7 @@ module.exports = {
                 PermissionFlagsBits.SendMessages,
             )
         ) {
-            interaction.reply({
+            interaction.editReply({
                 embeds: [embedFailed],
                 ephemeral: true,
             });
@@ -77,14 +79,14 @@ module.exports = {
                     Role: Role.id,
                 })
                 .then(() => {
-                    interaction.reply({
+                    interaction.editReply({
                         embeds: [embedSucess],
                         ephemeral: true,
                     });
                 })
                 .catch((err) => {
                     console.log(err);
-                    interaction.reply({
+                    interaction.editReply({
                         embeds: [embedFailed],
                         ephemeral: true,
                     });
@@ -101,14 +103,14 @@ module.exports = {
                     { where: { Guild: interaction.guild.id } },
                 )
                 .then(() => {
-                    interaction.reply({
+                    interaction.editReply({
                         embeds: [embedSucess],
                         ephemeral: true,
                     });
                 })
                 .catch((err) => {
                     console.log(err);
-                    interaction.reply({
+                    interaction.editReply({
                         embeds: [embedFailed],
                         ephemeral: true,
                     });

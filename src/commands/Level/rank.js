@@ -13,9 +13,11 @@ module.exports = {
         const guildId = guild.id;
         const userId = interaction.user.id;
 
+        await interaction.deferReply({ ephemeral: true });
+
         const existingLevel = await Level.findOne({ where: { guildId } });
         if (!existingLevel) {
-            return interaction.reply({
+            return interaction.editReply({
                 content: 'Sistema de level nao esta ativo.',
             });
         }
@@ -29,7 +31,7 @@ module.exports = {
             });
 
             if (topUsers.length === 0) {
-                return interaction.reply({
+                return interaction.editReply({
                     content: 'O rank do seu servidor esta vazio.',
                 });
             }
@@ -107,7 +109,7 @@ module.exports = {
                 .setUsersData(usersData)
                 .build();
 
-            return interaction.reply({
+            return interaction.editReply({
                 files: [
                     { attachment: top, name: `top-${userId}-${guildId}.png` },
                 ],
@@ -118,7 +120,7 @@ module.exports = {
             if (interaction.deferred || interaction.replied) {
                 return;
             }
-            return interaction.reply({
+            return interaction.editReply({
                 content:
                     'Ocorreu um erro no sistema de level, fale com o administrador. :pleading_face: ',
                 ephemeral: true,

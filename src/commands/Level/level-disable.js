@@ -10,10 +10,13 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
         const guildId = interaction.guild.id;
+
+        await interaction.deferReply({ ephemeral: true });
+
         const existingLevel = await Level.findOne({ where: { guildId } });
 
         if (!existingLevel) {
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: 'Sistema de level nao esta ativo.',
                 ephemeral: true,
             });
@@ -23,12 +26,12 @@ module.exports = {
             await Level.delete({ where: { guildId } });
             await UserLevel.delete({ where: { guildId } });
 
-            return interaction.reply({
+            return interaction.editReply({
                 content: 'Sistema desabilitado.',
                 ephemeral: true,
             });
         } catch (error) {
-            await interaction.reply({
+            await interaction.editReply({
                 content:
                     'Ocorreu um erro na configuracao do sistema de level, fale com o administrador. :pleading_face: ',
                 ephemeral: true,

@@ -86,6 +86,8 @@ module.exports = {
     async execute(interaction, client) {
         const subcommand = interaction.options.getSubcommand();
 
+        await interaction.deferReply({ ephemeral: true });
+
         const userData = await guildReactConfig.findOne({
             where: { guildId: interaction.guild.id },
         });
@@ -109,7 +111,7 @@ module.exports = {
                         )
                         .setColor(10944512);
 
-                    interaction.reply({
+                    interaction.editReply({
                         embeds: [embedFailed],
                     });
                     break;
@@ -124,7 +126,7 @@ module.exports = {
                     .setColor(0x0099ff);
 
                 if (userReact) {
-                    interaction.reply({
+                    interaction.editReply({
                         embeds: [embedFailed],
                     });
                 }
@@ -140,13 +142,13 @@ module.exports = {
                         idClassChannel: userData.channelId,
                     })
                     .then(() => {
-                        interaction.reply({
+                        interaction.editReply({
                             embeds: [embedSucess],
                         });
                     })
                     .catch((err) => {
                         console.log(err);
-                        interaction.reply({
+                        interaction.editReply({
                             content:
                                 'Erro na importação por gentileza procurar um administrador.',
                         });
@@ -172,7 +174,7 @@ module.exports = {
                     .setColor(0x0099ff);
 
                 if (!userReact) {
-                    interaction.reply({
+                    interaction.editReply({
                         embeds: [embedFailed],
                     });
                 }
@@ -182,7 +184,7 @@ module.exports = {
                         where: { idEmoji: emojiSplit[2] },
                     })
                     .then(() => {
-                        interaction.reply({
+                        interaction.editReply({
                             embeds: [embedSucess],
                         });
                     });
@@ -198,7 +200,7 @@ module.exports = {
                     where: { idGuild: interaction.guild.id, idGroup: idGroup },
                 });
                 if (!userReact) {
-                    interaction.reply({
+                    interaction.editReply({
                         content: '👎 Nenhum emoji encontrado para esse grupo.',
                     });
                     break;
@@ -211,7 +213,7 @@ module.exports = {
                         )
                         .setColor(10944512);
 
-                    interaction.reply({
+                    interaction.editReply({
                         embeds: [embedFailed],
                     });
                     break;
@@ -247,7 +249,7 @@ module.exports = {
                         .catch(console.error);
                 });
 
-                interaction.reply({
+                interaction.editReply({
                     content: '🎉 Sistema de reações ativado com sucesso!',
                 });
 
@@ -262,7 +264,7 @@ module.exports = {
                         channelId: channelId.id,
                     });
 
-                    interaction.reply({
+                    interaction.editReply({
                         content: '🎉 Canal de reações configurado com sucesso!',
                         ephemeral: true,
                     });
@@ -274,7 +276,7 @@ module.exports = {
                         { where: { guildId: interaction.guild.id } },
                     );
 
-                    interaction.reply({
+                    interaction.editReply({
                         content: '🎉 Canal de reações atualizado com sucesso!',
                         ephemeral: true,
                     });

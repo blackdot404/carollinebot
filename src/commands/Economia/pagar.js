@@ -18,6 +18,8 @@ module.exports = {
                 .setRequired(true),
         ),
     async execute(interaction, client) {
+        await interaction.deferReply({ ephemeral: true });
+
         const userStoredBalance = await client.fetchBalance(
             interaction.user.id,
             interaction.guild.id,
@@ -26,17 +28,17 @@ module.exports = {
         const selectedUser = interaction.options.getUser('target');
 
         if (selectedUser.bot || selectedUser.id == interaction.user.id) {
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: 'Voce não pode mandar para bot ou para voce mesmo.',
                 ephemeral: true,
             });
         } else if (amount < 1.0) {
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: 'O valor inserido tem que ser maior que $1.00',
                 ephemeral: true,
             });
         } else if (amount > userStoredBalance.balance) {
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: 'Voce não tem o valor que deseja enviar.',
                 ephemeral: true,
             });
@@ -94,7 +96,7 @@ module.exports = {
             })
             .setColor(10944512);
 
-        await interaction.reply({
+        await interaction.editReply({
             embeds: [embed],
             ephemeral: true,
         });

@@ -17,6 +17,8 @@ module.exports = {
         .setDescription('Integra o sistema de regras ao servidor.')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction, client) {
+        await interaction.deferReply({ ephemeral: true });
+
         const data = await userGuild.findOne({
             attributes: ['Guild', 'RoleChannel'],
             where: { Guild: interaction.guild.id },
@@ -29,7 +31,7 @@ module.exports = {
                 )
                 .setColor(10944512);
 
-            interaction.reply({
+            interaction.editReply({
                 embeds: [embedFailed],
             });
         }
@@ -81,7 +83,7 @@ module.exports = {
             components: [new ActionRowBuilder().addComponents(button)],
         });
 
-        interaction.reply({
+        interaction.editReply({
             embeds: [embedSucess],
             ephemeral: true,
         });

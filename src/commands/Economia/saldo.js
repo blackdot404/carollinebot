@@ -12,13 +12,16 @@ module.exports = {
     async execute(interaction, client) {
         const selectedUser =
             interaction.options.getUser('target') || interaction.user;
+
+        await interaction.deferReply({ ephemeral: true });
+
         const storedBalance = await client.getBalance(
             selectedUser.id,
             interaction.guild.id,
         );
 
         if (!storedBalance)
-            return await interaction.reply({
+            return await interaction.editReply({
                 content: `${selectedUser.tag}, usuario nao tem conta no banco.`,
                 ephemeral: true,
             });
@@ -38,7 +41,7 @@ module.exports = {
                 })
                 .setColor(10944512);
 
-            await interaction.reply({ embeds: [embed], ephemeral: true });
+            await interaction.editReply({ embeds: [embed], ephemeral: true });
         }
     },
 };

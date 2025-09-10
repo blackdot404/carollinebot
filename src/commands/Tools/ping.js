@@ -11,7 +11,7 @@ module.exports = {
         .setName('ping')
         .setDescription('Retorna o tempo de resposta do servidor.'),
     async execute(interaction, client) {
-        const message = await interaction.deferReply({
+        await interaction.deferReply({
             fetchReply: true,
         });
 
